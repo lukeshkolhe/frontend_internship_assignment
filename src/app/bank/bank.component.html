@@ -1,0 +1,30 @@
+<mat-icon class="back pointer" (click)="backPressed()">arrow_back</mat-icon>
+<div fxLayout="column" class = "container height100 width100" fxLayoutAlign="center center">
+    <div fxLayout="row" [class.mat-elevation-z8]="true" fxFlex="80" class="bank_container height80" fxLayoutAlign="center center">
+        <div fxLayout="column" fxFlex="80" fxFlex.xs="80" class="height80 white" fxLayoutAlign="top start">
+            <div fxFlex="5"></div>
+            <div fxLayout="column" class="width100" fxLayoutAlign="space-between start" >
+                <span class="bank_name">{{bank.bank_name}}</span>
+                <span>IFSC: {{bank.ifsc}}</span>
+            </div>
+            <div fxFlex="10"></div>
+            <div fxLayout="row" fxFlex="80" class="width100" fxLayoutAlign="space-betweeen center">
+                <div fxLayout="column" fxFlex="90" class="height100" fxLayoutAlign="space-around start">
+                    <div>Bank Id: {{bank.bank_id}}</div>
+
+                    <div>Branch: {{bank.branch}}</div>
+
+                    <div>District: {{bank.district}}</div>
+
+                    <div>City: {{bank.city}}</div>
+
+                    <div>State: {{bank.state}}</div>
+                </div>
+                <div fxFlex="10">
+                    <mat-icon *ngIf="!bank.isFav" (click)="makeFav(true)" class="icon_fav white" aria-hidden="false">favorite</mat-icon>
+                    <mat-icon *ngIf="bank.isFav"  (click)="makeFav(false)" class="icon_fav red" aria-hidden="false">favorite</mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

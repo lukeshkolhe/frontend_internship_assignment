@@ -1,0 +1,59 @@
+<div fxFlex="10" fxFlex.xs="5"></div>
+<div clas="container" fxLayout="column" fxFlex.xs="90" fxFlex="80" fxLayoutAlignment="center">
+    <p class='start_text'>Hey User! Here are the list of banks in Mumbai</p>
+    <div *ngIf="isDataLoaded" class="search_box" fxLayout="row" fxLayoutAlign="center">
+        <input [(ngModel)]="searchText" class="search_input" autofocus matInput type="text" placeholder="Search"
+            (keyup.enter)="search()" (input)="search()">
+    </div>
+    <div *ngIf="isDataLoaded" fxLyout="row" class="width100" fxLayoutAlign="end center">
+        <span>Banks per page: </span>
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <mat-icon class="mat-18" (click)="changePageSize(true)">arrow_drop_up</mat-icon>
+            <span>{{pageSize}}</span>
+            <mat-icon class="mat-18"(click)="changePageSize(false)">arrow_drop_down</mat-icon>
+        </div>
+    </div>
+    <div *ngIf="searchText == ''" class="make_user_search" fxLayoutAlign="center center">
+        <span>Please enter bank name or any bank detail in the search box</span>
+    </div>
+    <div *ngIf="isDataLoaded" fxLayout="column" fxlayoutAlign="center center">
+        <div fxLayout="column" class="page_container">
+            <div [class.mat-elevation-z8]="true" class='bank_card' *ngFor="let bank of bankListPerPage; index as i"
+                fxLayout="row" (click)="openCard(i)">
+                <div fxFlex='"80' fxLayout="column">
+                    <div class="top_layer" fxLayout.xs="column" fxLayout.sm="column" fxLayout="row" fxLayoutAlign.xs="start start" fxLayoutAlign.sm="start start" fxLayoutAlign="space-between center">
+                        <div class="bank_name white_text">{{bank.bank_name}}</div>
+                        <div class="bank_ifsc white_text">IFSC: {{bank.ifsc}}</div>
+                    </div>
+                    <div class="bottom_layer" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign.xs="space-between start" fxLayoutAlign.sm="space-between start" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxFlex="30" class="white_text">Branch: {{bank.branch}}</div>
+                        <div fxFlex="5"></div>
+                        <div fxFlex="30" class="white_text">city: {{bank.city}}</div>
+                        <div fxFlex="5"></div>
+                        <div fxFlex="30" class="white_text">State: {{bank.state}}</div>
+                    </div>
+                </div>
+                <div fxFlex="20" fxLayout="row" fxLayoutAlign="center center">
+                    <mat-icon *ngIf="!bank.isFav" (click)="makeFav(i, true)" class="icon_fav white"
+                        aria-hidden="false">favorite</mat-icon>
+                    <mat-icon *ngIf="bank.isFav" (click)="makeFav(i, false)" class="icon_fav red"
+                        aria-hidden="false">favorite</mat-icon>
+                </div>
+            </div>
+        </div>
+        <div fxLayout="row" class="toggler" fxLayoutAlign="center center">
+            <div (click)="left()" class="pointer" fxLayout="row" fxLayoutAlign="center center">
+                <mat-icon>chevron_left</mat-icon>
+                <span>Previous</span>
+            </div>
+            <div fxFlex="10"></div>
+            <div (click)="right()" class="pointer" fxLayout="row" fxLayoutAlign="center center">
+                <span>Next</span>
+                <mat-icon>chevron_right</mat-icon>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!isDataLoaded" class="spinner-container" fxLayoutAlign="center center" fxFill>
+    <mat-spinner class="spinner" diameter="50"></mat-spinner>
+</div>
