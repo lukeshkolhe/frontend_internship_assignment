@@ -21,17 +21,11 @@ export class BankListComponent implements OnInit {
   pageSize: number = 5
   bankListPerPage = new Array<BankModel>()
   ngOnInit(): void {
-    let favsString = localStorage.getItem("fav_banks")
-    let favs: string[]
-    if (favsString != null) {
-      favs = JSON.parse(favsString)
-    } else {
-      favs = []
-    }
     let temp = localStorage.getItem("bank-list")    
     if (temp != null) {
       this.bankList = JSON.parse(temp)
       this.isDataLoaded = true
+      this.searchForFav()
     } else {
       this.bankService.getBanks(this.city).subscribe(
         (response) => {
@@ -39,13 +33,22 @@ export class BankListComponent implements OnInit {
           localStorage.setItem("bank-list", JSON.stringify(response))
           this.bankList = JSON.parse(JSON.stringify(response))
           this.isDataLoaded = true
-          this.search()
+          this.searchForFav()
         },
         (error) => {
           console.error(error);
 
         }
       )
+    }
+  }
+  searchForFav(){
+    let favsString = localStorage.getItem("fav_banks")
+    let favs: string[]
+    if (favsString != null) {
+      favs = JSON.parse(favsString)
+    } else {
+      favs = []
     }
     for (let i of this.bankList) {
       let bankString = i.bank_id + i.bank_name + i.branch + i.city + i.district + i.ifsc + i.state + i.address
